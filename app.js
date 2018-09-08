@@ -7,6 +7,21 @@ const orderRoutes = require('./api/routes/orders');
 
 app.use(morgan('dev'));
 
+// body-parser is now part of express 4.16.*
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// handle CORS
+app.use((req, res, next) => {
+  res.header('Acess-Control-Allow-Origin', '*'); // can restrict who can access the server
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') { // browser always send OPTION request before sending any POST or PUT req to see if the user is allowed to make those req
+    res.header('Access-Control-Allow-Methods', 'PUT, POST,PATCH,DELETE,GET');
+    return res.status(200).json({});
+  }
+  next();
+});
+
 // only req url start with /products path, will then be handled by the specific routers
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
