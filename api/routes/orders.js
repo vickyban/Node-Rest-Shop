@@ -9,14 +9,18 @@ const Product = require('../models/product');
 router.get('/', (req, res, next) => {
   Order.find()
     .select('-__v')
+    .populate('product', '-__v -price')         //make query to fields that ref to other tables [with list of field to include or exclude]
     .exec()
     .then(docs => {
+      if (docs.length == 0) {
+        return res.status(200).json({ message: 'no orders' })
+      }
       res.status(200).json({
         count: docs.length,
         orders: docs.map(doc => {
           return {
             _id: doc._id,
-            product: doc.product,
+            product: doc.product,   // will fetch the all detail about the product
             quantity: doc.quantity,
             request: {
               type: 'GET',
@@ -69,6 +73,7 @@ router.get('/:id', (req, res, next) => {
   const id = req.params.id;
   Order.findById(id)
     .select('-__v')
+    .populate('product')
     .exec()
     .then(doc => {
       if (doc)
