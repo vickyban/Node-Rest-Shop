@@ -10,6 +10,7 @@ const orderRoutes = require('./api/routes/orders');
 const atlas_uri = require('./config').DB_URI;
 
 mongoose.connect(atlas_uri, { dbName: 'productdb' });
+mongoose.Promise = global.Promise;  // node.js promist instead of mongoose promise implementation
 const connection = mongoose.connection;
 connection.on('connected', () => {
   console.log('Connected to mongodb')
