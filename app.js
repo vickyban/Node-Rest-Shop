@@ -1,9 +1,19 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');  // log infor of req
+const mongoose = require('mongoose');
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+
+// Connect to db
+const atlas_uri = require('./config').DB_URI;
+
+mongoose.connect(atlas_uri, { dbName: 'productdb' });
+const connection = mongoose.connection;
+connection.on('connected', () => {
+  console.log('Connected to mongodb')
+});
 
 app.use(morgan('dev'));
 
