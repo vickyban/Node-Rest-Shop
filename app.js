@@ -17,6 +17,7 @@ connection.on('connected', () => {
 });
 
 app.use(morgan('dev'));
+app.use('/uploads', express.static('uploads')); //make the folder publicly available
 
 // body-parser is now part of express 4.16.*
 app.use(express.urlencoded({ extended: false }));
