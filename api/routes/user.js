@@ -50,10 +50,10 @@ router.post('/login', (req, res, next) => {
           const token = jwt.sign({
             email: users[0].email,
             userId: users[0]._id
-          }, secret_key,
-            {
-              expiresIn: '1h'
-            }
+          }, secret_key
+            // {
+            //   expiresIn: '1h'
+            // }
           )
           return res.status(200).json({
             message: 'Auth successful',

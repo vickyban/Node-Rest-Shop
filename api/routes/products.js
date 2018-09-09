@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const checkAuth = require('../middleware/checkAuth');
 const multer = require('multer');   // parse other data that body-parser can't do
 
 // sending detail options of how the file or type should be accepted or storaged
@@ -58,7 +59,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.post('/', upload.single('productImage'), (req, res, next) => {
+router.post('/', checkAuth, upload.single('productImage'), (req, res, next) => {
   console.log(req.file); // file is about available due to upload.single() parse the image file
   const product = new Product({   // accept an object contain data for the model
     _id: new mongoose.Types.ObjectId(),
