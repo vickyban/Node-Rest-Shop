@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const userRoutes = require('./api/routes/user');
 
 // Connect to db
 const atlas_uri = require('./config').DB_URI;
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 // only req url start with /products path, will then be handled by the specific routers
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/users', userRoutes);
 
 // if not req path match the above route
 app.use((req, res, next) => {
